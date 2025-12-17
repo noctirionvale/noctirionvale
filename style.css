@@ -1,0 +1,619 @@
+/* ----------------------------------------------------------------
+    0. CSS Variables
+---------------------------------------------------------------- */
+:root {
+    --primary-bg: #020B26;
+    --primary-text: #D9E4FF;
+    --accent-orange: #FF4D30;
+    --accent-yellow: #F9D84A;
+    --accent-blue: #A6E1FF;
+
+    /* Dynamic Variables for Dark/Light Mode */
+    --bg: var(--primary-bg);
+    --text: var(--primary-text);
+}
+
+/* Light mode overrides */
+body.light-mode {
+    --bg: #ffffff;
+    --text: #020B26;
+}
+
+/* Smooth transitions */
+body, .container, .title, .subtitle, li, .section-title, .orange {
+    transition: background-color 0.5s, color 0.5s;
+}
+
+/* ----------------------------------------------------------------
+    1. Reset and Base
+---------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* Lists */
+ul {
+    list-style: none;
+    padding: 0 0 0 20px;
+    margin: 10px 0 20px 0;
+}
+
+li {
+    margin-bottom: 8px;
+    color: var(--accent-blue);
+    font-size: 16px;
+}
+
+/* ----------------------------------------------------------------
+    2. Typography & Headings
+---------------------------------------------------------------- */
+.title {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent-orange);
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+}
+
+.subtitle {
+    color: var(--accent-blue);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 10px 0 30px 0;
+}
+
+.section-title {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    font-size: 22px;
+    color: var(--accent-yellow);
+    font-weight: 600;
+}
+
+.orange {
+    color: var(--accent-orange);
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.description {
+    max-width: 800px;
+    margin: 20px auto;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+/* Light mode overrides */
+body.light-mode .title { color: var(--accent-orange); }
+body.light-mode .subtitle,
+body.light-mode .section-title,
+body.light-mode .description,
+body.light-mode .orange,
+body.light-mode li { 
+    color: var(--text);
+}
+
+/* ----------------------------------------------------------------
+    3. Layouts & Columns
+---------------------------------------------------------------- */
+.logo-wrapper { margin: 20px 0; }
+.logo { width: 150px; }
+
+/* Main Columns Container */
+.two-columns {
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: stretch;
+    justify-content: space-between;
+    margin-top: 40px;
+    text-align: left;
+    gap: 40px;
+}
+
+.left-col { 
+    width: 48%; 
+    display: flex;
+    flex-direction: column;
+}
+
+.right-col { 
+    width: 48%; 
+    display: flex;
+    flex-direction: column;
+}
+
+.merch-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.merch-grid img {
+    width: 100%;
+    border-radius: 10px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.merch-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ----------------------------------------------------------------
+    4. Stacked Images (Left) & Bottom Banner (Right)
+---------------------------------------------------------------- */
+
+.stacked-images-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 2rem;
+    align-items: center;
+}
+
+.stacked-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.stacked-img:hover {
+    transform: scale(1.02);
+}
+
+.bottom-image-container {
+    margin-top: 2rem;
+    flex-grow: 1;
+    min-height: 200px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.merch-footer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+    display: block;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.merch-footer-img:hover {
+    transform: scale(1.02);
+}
+
+/* ----------------------------------------------------------------
+    5. Charts & Swap
+---------------------------------------------------------------- */
+.charts-section {
+    margin: 60px auto;
+    max-width: 1100px;
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255,77,48,0.05), rgba(0,11,38,0.05));
+    transition: background 0.5s;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+body.light-mode .charts-section { 
+    background: linear-gradient(135deg, rgba(255,77,48,0.05), rgba(0,11,38,0.02)); 
+}
+
+.charts-wrapper { 
+    display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; 
+}
+
+.chart-wrapper {
+    flex: 1 1 48%;
+    min-width: 300px;
+    background-color: rgba(255, 77, 48, 0.05);
+    padding: 15px 10px 10px 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-wrapper:hover { 
+    transform: translateY(-5px) scale(1.02); 
+    box-shadow: 0 8px 20px rgba(255,77,48,0.5); 
+}
+
+.chart-label {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    padding-bottom: 5px;
+    margin: 0 0 10px 0;
+    letter-spacing: 1px;
+    color: var(--accent-yellow); 
+}
+.dex-label { color: var(--accent-yellow); }
+.pump-label { color: var(--accent-blue); }
+
+body.light-mode .dex-label { color: #0088cc; }
+body.light-mode .pump-label { color: #884400; }
+
+.swap-button-wrapper { text-align: center; margin-top: 40px; margin-bottom: 60px; }
+
+.swap-button { 
+    background-color: #C7F284; 
+    color: #111; 
+    padding: 14px 35px; 
+    font-size: 16px; 
+    border-radius: 12px; 
+    text-decoration: none; 
+    font-weight: bold; 
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.swap-button:hover { 
+    background-color: #B5EA70; 
+    box-shadow: 0 0 18px rgba(199,242,132,0.9);
+    transform: scale(1.03); 
+}
+
+.swap-widget-wrapper iframe {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ----------------------------------------------------------------
+    6. Fixed Elements (Toggle, Menus)
+---------------------------------------------------------------- */
+.toggle-wrapper {
+    position: fixed; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; z-index: 200;
+}
+.switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--accent-orange); }
+input:checked + .slider:before { transform: translateX(26px); }
+
+
+/* Left Menu */
+.left-menu {
+    position: fixed;
+    top: 120px; 
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 200;
+}
+
+/* Right Menu */
+.right-menu {
+    position: fixed;
+    top: 120px; 
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 200;
+    text-align: right;
+}
+
+.menu-title {
+    color: var(--accent-blue);
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin: 0 0 5px 0;
+    font-weight: 900;
+    opacity: 0.8;
+}
+
+.menu-btn {
+    background: var(--accent-orange);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    background: #FF7050; 
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(255,77,48,0.4);
+}
+
+.right-menu .menu-btn:hover {
+    transform: translateX(-5px);
+}
+
+/* ----------------------------------------------------------------
+    7. Leaderboard & Socials
+---------------------------------------------------------------- */
+.leaderboard-info { font-size: 14px; margin-bottom: 20px; color: var(--accent-blue); }
+.leaderboard-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+.leaderboard-table th, .leaderboard-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255, 77, 48, 0.2); }
+.leaderboard-table thead th { font-weight: 700; color: var(--accent-orange); text-transform: uppercase; }
+.leaderboard-table tbody tr:hover { background-color: rgba(255, 77, 48, 0.1); }
+.tier-ultra { color: #FFD700; font-weight: 700; }
+.tier-turbo { color: #00BFFF; font-weight: 700; }
+.tier-elite { color: #7FFF00; font-weight: 700; }
+.tier-og { color: var(--accent-orange); font-weight: 700; }
+.address { font-family: monospace; font-size: 13px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+body.light-mode .leaderboard-table th, 
+body.light-mode .leaderboard-table td { border-bottom: 1px solid rgba(2, 11, 38, 0.1); }
+
+.socials-bottom {
+    width: 100%;
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 60px;
+    border-top: 1px solid rgba(255, 77, 48, 0.2);
+}
+.social-icon img { width: 42px; height: 42px; filter: invert(0); transition: transform 0.3s, filter 0.3s; }
+.social-icon img:hover { transform: scale(1.15); filter: drop-shadow(0 0 6px rgba(255,77,48,0.5)); }
+body.light-mode .social-icon img { filter: invert(0.8); }
+
+/* ----------------------------------------------------------------
+    8. Cartoon Snippet (Right Side)
+---------------------------------------------------------------- */
+.cartoon-snippet {
+    position: absolute;
+    top: 50px;
+    width: 300px;
+    z-index: 5; 
+    pointer-events: none;
+    opacity: 0.9;
+    transition: opacity 0.5s;
+}
+.cartoon-snippet img { width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 77, 48, 0.3)); }
+.right-snippet { right: calc(50% - 540px); }
+
+@media (max-width: 1150px) {
+    .cartoon-snippet { display: none; }
+}
+
+/* ----------------------------------------------------------------
+    9. Mobile Responsiveness
+---------------------------------------------------------------- */
+@media (max-width: 1150px) {
+    /* Hide Navigation Menus on Tablet/Mobile */
+    .left-menu, .right-menu { display: none; }
+}
+
+@media (max-width: 900px) {
+    .two-columns {
+        flex-direction: column; 
+        gap: 30px; 
+        padding-top: 10px;
+    }
+    
+    .left-col, .right-col { width: 100%; }
+
+    .container { padding: 20px 10px; }
+    h1.title { font-size: 36px; }
+    h2.subtitle { font-size: 20px; }
+    
+    .toggle-wrapper { top: 10px; right: 10px; }
+    .chart-wrapper { min-width: 100%; }
+
+    /* On mobile, reset bottom image flexibility */
+    .bottom-image-container {
+        height: 300px;
+        flex-grow: 0;
+    }
+}
+
+/* ----------------------------------------------------------------
+    10. MOBILE MENU (Hamburger)
+---------------------------------------------------------------- */
+
+.hamburger-btn {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    background: none;
+    border: 2px solid var(--accent-orange);
+    color: var(--accent-orange);
+    font-size: 24px;
+    border-radius: 8px;
+    padding: 5px 12px;
+    cursor: pointer;
+    z-index: 300;
+    transition: 0.3s;
+}
+
+.hamburger-btn:hover {
+    background: var(--accent-orange);
+    color: white;
+}
+
+@media (max-width: 1150px) {
+    .hamburger-btn {
+        display: block;
+    }
+}
+
+/* Full Screen Overlay */
+.mobile-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg);
+    z-index: 400;
+    overflow-y: auto;
+    padding-bottom: 50px;
+}
+
+.mobile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    gap: 15px;
+}
+
+.close-mobile {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 35px;
+    color: var(--accent-orange);
+    cursor: pointer;
+}
+
+.mobile-section-title {
+    color: var(--accent-blue);
+    margin-top: 20px;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--accent-orange);
+    padding-bottom: 5px;
+    width: 80%;
+    text-align: center;
+}
+
+.mobile-link {
+    background: none;
+    border: 1px solid rgba(255, 77, 48, 0.3);
+    color: var(--text);
+    padding: 15px;
+    width: 80%;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.mobile-link:hover {
+    background: var(--accent-orange);
+    color: white;
+    transform: scale(1.02);
+}
+
+/* ----------------------------------------------------------------
+    11. POPUP SYSTEM (Global & Mobile Fixed)
+---------------------------------------------------------------- */
+
+/* Backdrop */
+.popup-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    backdrop-filter: blur(3px);
+}
+
+/* Popups: Always Centered */
+.popup-box {
+    display: none;
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 9999;
+    
+    width: 450px;
+    max-width: 90%; /* Responsive width */
+    max-height: 85vh; /* Responsive height */
+    overflow-y: auto; /* Scrollable inside */
+    
+    background: var(--bg);
+    border: 2px solid var(--accent-orange);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    color: var(--text);
+}
+
+/* Override Popup Colors for Light Mode */
+body.light-mode .popup-box {
+    background: #ffffff;
+    border: 2px solid #ccc;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+body.light-mode .popup-box h2,
+body.light-mode .popup-box h3,
+body.light-mode .popup-box h4,
+body.light-mode .popup-box li,
+body.light-mode .popup-box p {
+    color: var(--text) !important;
+}
+
+.popup-box h2, .popup-box h3, .popup-box h4 { color: var(--accent-orange); }
+
+/* Close Button (X) */
+.close-popup {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 35px;
+    font-weight: bold;
+    color: var(--accent-orange);
+    cursor: pointer;
+    opacity: 0.9;
+    padding: 10px; /* Touch target */
+}
+
+/* ----------------------------------------------------------------
+    12. LIGHT MODE: SHARPNESS FIXES (New Additions)
+---------------------------------------------------------------- */
+body.light-mode .mobile-section-title {
+    color: var(--accent-orange);
+    border-bottom: 2px solid var(--accent-orange);
+    font-weight: 800;
+}
+
+body.light-mode .menu-title {
+    color: var(--accent-orange);
+    font-weight: 800;
+}
+
+body.light-mode .mobile-link {
+    border-color: #ccc;
+    color: #020B26;
+    background: #f8f8f8;
+}
+
+body.light-mode .mobile-link:hover {
+    background: var(--accent-orange);
+    color: white;
+    border-color: var(--accent-orange);
+}
