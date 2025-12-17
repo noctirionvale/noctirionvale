@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reply Guy Token (Official)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    
+    <style>
+        /* ----------------------------------------------------------------
+           0. CSS Variables
+        ---------------------------------------------------------------- */
+        :root {
+            --primary-bg: #020B26;
+            --primary-text: #D9E4FF;
+            --accent-orange: #FF4D30;
+            --accent-yellow: #F9D84A;
+            --accent-blue: #A6E1FF;
+
+            /* Dynamic Variables for Dark/Light Mode */
+            --bg: var(--primary-bg);
+            --text: var(--primary-text);
+        }
+
+        /* 🌟 PREMIUM LIGHT MODE 🌟 */
+        body.light-mode {
+            --bg: #F0F4F8;
+            --text: #020B26;
+            background-color: #F0F4F8;
+            background-image: 
+                radial-gradient(circle at 100% 0%, rgba(255, 77, 48, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 0% 0%, rgba(166, 225, 255, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, #ffffff 0%, transparent 60%);
+            background-attachment: fixed;
+        }
+
+        /* Smooth transitions */
+        body, .container, .title, .subtitle, li, .section-title, .orange, .social-label {
+            transition: background 0.5s, color 0.5s;
+        }
+
+        /* ----------------------------------------------------------------
+           1. Reset and Base
+        ---------------------------------------------------------------- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            font-weight: 400;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        ul { list-style: none; padding: 0 0 0 20px; margin: 10px 0 20px 0; }
+        li { margin-bottom: 8px; color: var(--accent-blue); font-size: 16px; }
+
+        /* ----------------------------------------------------------------
+           2. Typography & Headings
+        ---------------------------------------------------------------- */
+        .title {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--accent-orange);
+            letter-spacing: 2px;
+            line-height: 1.2;
+            margin: 0 0 20px 0;
+        }
+
+        .subtitle {
+            color: var(--accent-blue);
+            font-size: 24px;
+            font-weight: 500;
+            margin: 10px 0 30px 0;
+        }
+
+        .section-title {
+            margin-top: 50px;
+            margin-bottom: 30px;
+            font-size: 22px;
+            color: var(--accent-yellow);
+            font-weight: 600;
+        }
+
+        .orange {
+            color: var(--accent-orange);
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Light mode Text Overrides */
+        body.light-mode .title { color: var(--accent-orange); text-shadow: 0px 2px 10px rgba(255, 77, 48, 0.1); }
+        body.light-mode .subtitle, body.light-mode .section-title, body.light-mode .description, body.light-mode .orange, body.light-mode li { color: var(--text); }
+        body.light-mode li, body.light-mode .subtitle, body.light-mode .social-label { color: #4A5568; }
+        body.light-mode .orange { color: #E0351B; }
+
+        /* ----------------------------------------------------------------
+           3. Layouts & Columns
+        ---------------------------------------------------------------- */
+        .logo-wrapper { margin: 20px 0; }
+        .logo { width: 150px; }
+
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap; 
+            align-items: stretch;
+            justify-content: space-between;
+            margin-top: 40px;
+            text-align: left;
+            gap: 40px;
+        }
+        .left-col { width: 48%; display: flex; flex-direction: column; }
+        .right-col { width: 48%; display: flex; flex-direction: column; }
+
+        /* ----------------------------------------------------------------
+           4. Merch Grid
+        ---------------------------------------------------------------- */
+        .merch-grid {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .merch-grid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .merch-grid img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* ----------------------------------------------------------------
+           5. Stacked Images & Footer
+        ---------------------------------------------------------------- */
+        .stacked-images-container { display: flex; flex-direction: column; gap: 15px; margin-top: 2rem; align-items: center; }
+        .stacked-img { max-width: 100%; height: auto; border-radius: 8px; transition: transform 0.3s ease; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .stacked-img:hover { transform: scale(1.02); }
+        .bottom-image-container { margin-top: 2rem; flex-grow: 1; min-height: 200px; position: relative; border-radius: 8px; overflow: hidden; }
+        .merch-footer-img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.3s ease; display: block; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+
+        /* ----------------------------------------------------------------
+           6. Charts & Swap
+        ---------------------------------------------------------------- */
+        .charts-section {
+            margin: 60px auto;
+            max-width: 1100px;
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255,77,48,0.05), rgba(0,11,38,0.05));
+            transition: background 0.5s;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+        body.light-mode .charts-section { 
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        .charts-wrapper { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+        .chart-wrapper {
+            flex: 1 1 48%;
+            min-width: 300px;
+            background-color: rgba(255, 77, 48, 0.05);
+            padding: 15px 10px 10px 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        body.light-mode .chart-wrapper { background-color: #ffffff; border: 1px solid rgba(0,0,0,0.05); }
+        .chart-wrapper:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 20px rgba(255,77,48,0.5); }
+        .chart-label { font-size: 18px; font-weight: 700; text-align: center; padding-bottom: 5px; margin: 0 0 10px 0; letter-spacing: 1px; color: var(--accent-yellow); }
+        .dex-label { color: var(--accent-yellow); }
+        .pump-label { color: var(--accent-blue); }
+        body.light-mode .dex-label { color: #0088cc; }
+        body.light-mode .pump-label { color: #cc6600; }
+
+        .swap-button-wrapper { text-align: center; margin-top: 40px; margin-bottom: 60px; }
+        .swap-button { 
+            background-color: #C7F284; color: #111; padding: 14px 35px; font-size: 16px; border-radius: 12px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: inline-block; cursor: pointer;
+        }
+        .swap-button:hover { background-color: #B5EA70; box-shadow: 0 0 18px rgba(199,242,132,0.9); transform: scale(1.03); }
+        .swap-widget-wrapper iframe { border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+        /* ----------------------------------------------------------------
+           7. Fixed Elements
+        ---------------------------------------------------------------- */
+        .toggle-wrapper { position: fixed; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; z-index: 200; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-orange); }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        .left-menu, .right-menu { position: fixed; top: 120px; display: flex; flex-direction: column; gap: 12px; z-index: 200; }
+        .left-menu { left: 20px; }
+        .right-menu { right: 20px; text-align: right; }
+        
+        .menu-btn {
+            background: var(--accent-orange); color: white; border: none; padding: 10px 14px; font-size: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        body.light-mode .menu-btn { box-shadow: 0 4px 6px rgba(255, 77, 48, 0.15); }
+        .menu-btn:hover { background: #FF7050; transform: translateX(5px); box-shadow: 0 5px 15px rgba(255,77,48,0.4); }
+        .right-menu .menu-btn:hover { transform: translateX(-5px); }
+
+        /* ----------------------------------------------------------------
+           8. Leaderboard & Verification Styles
+        ---------------------------------------------------------------- */
+        .leaderboard-info { font-size: 14px; margin-bottom: 20px; color: var(--accent-blue); }
+        .leaderboard-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; margin-bottom: 20px; }
+        .leaderboard-table th, .leaderboard-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255, 77, 48, 0.2); }
+        .leaderboard-table thead th { font-weight: 700; color: var(--accent-orange); text-transform: uppercase; }
+        .leaderboard-table tbody tr:hover { background-color: rgba(255, 77, 48, 0.1); }
+        .tier-ultra { color: #FFD700; font-weight: 700; }
+        .tier-turbo { color: #00BFFF; font-weight: 700; }
+        .tier-elite { color: #7FFF00; font-weight: 700; }
+        .tier-og { color: var(--accent-orange); font-weight: 700; }
+        .address { font-family: monospace; font-size: 13px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        body.light-mode .leaderboard-table th, body.light-mode .leaderboard-table td { border-bottom: 1px solid rgba(2, 11, 38, 0.1); }
+
+        .verify-section {
+            margin-top: 20px;
+            padding: 15px;
+            border-top: 2px dashed rgba(255, 77, 48, 0.3);
+            text-align: center;
+        }
+        .verify-btn {
+            background: linear-gradient(135deg, #a742f5, #5b21b6); /* Phantom Purple */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-bottom: 10px;
+        }
+        .verify-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(167, 66, 245, 0.5); }
+        .verify-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+        .status-success { background: rgba(50, 255, 100, 0.1); color: #2ecc71; border: 1px solid #2ecc71; }
+        .status-fail { background: rgba(255, 50, 50, 0.1); color: #e74c3c; border: 1px solid #e74c3c; }
+
+
+        .socials-bottom { width: 100%; text-align: center; padding: 40px 0; margin-top: 60px; border-top: 1px solid rgba(255, 77, 48, 0.2); }
+        .social-icon img { width: 42px; height: 42px; filter: invert(0); transition: transform 0.3s, filter 0.3s; }
+        .social-icon img:hover { transform: scale(1.15); filter: drop-shadow(0 0 6px rgba(255,77,48,0.5)); }
+        body.light-mode .social-icon img { filter: invert(0.8); }
+        .social-label { color: var(--accent-blue); font-size: 14px; font-weight: 700; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        body.light-mode .social-label { color: #4A5568; }
+
+        .cartoon-snippet { position: absolute; top: 50px; width: 300px; z-index: 5; pointer-events: none; opacity: 0.9; transition: opacity 0.5s; }
+        .cartoon-snippet img { width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 77, 48, 0.3)); }
+        .right-snippet { right: calc(50% - 540px); }
+        @media (max-width: 1150px) { .cartoon-snippet { display: none; } }
+        @media (max-width: 1150px) { .left-menu, .right-menu { display: none; } }
+        @media (max-width: 900px) {
+            .two-columns { flex-direction: column; gap: 30px; padding-top: 10px; }
+            .left-col, .right-col { width: 100%; }
+            .container { padding: 20px 10px; }
+            h1.title { font-size: 36px; }
+            h2.subtitle { font-size: 20px; }
+            .toggle-wrapper { top: 10px; right: 10px; }
+            .chart-wrapper { min-width: 100%; }
+            .bottom-image-container { height: 300px; flex-grow: 0; }
+        }
+
+        .hamburger-btn { display: none; position: fixed; top: 15px; left: 20px; background: none; border: 2px solid var(--accent-orange); color: var(--accent-orange); font-size: 24px; border-radius: 8px; padding: 5px 12px; cursor: pointer; z-index: 300; transition: 0.3s; }
+        .hamburger-btn:hover { background: var(--accent-orange); color: white; }
+        @media (max-width: 1150px) { .hamburger-btn { display: block; } }
+
+        .mobile-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg); z-index: 400; overflow-y: auto; padding-bottom: 50px; }
+        .mobile-content { display: flex; flex-direction: column; align-items: center; padding-top: 60px; gap: 15px; }
+        .close-mobile { position: absolute; top: 20px; right: 25px; font-size: 35px; color: var(--accent-orange); cursor: pointer; }
+        .mobile-section-title { color: var(--accent-blue); margin-top: 20px; margin-bottom: 5px; letter-spacing: 2px; border-bottom: 1px solid var(--accent-orange); padding-bottom: 5px; width: 80%; text-align: center; }
+        .mobile-link { background: none; border: 1px solid rgba(255, 77, 48, 0.3); color: var(--text); padding: 15px; width: 80%; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .mobile-link:hover { background: var(--accent-orange); color: white; transform: scale(1.02); }
+
+        .popup-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9998; backdrop-filter: blur(3px); }
+        .popup-box { display: none; position: fixed; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; z-index: 9999; width: 450px; max-width: 90%; max-height: 85vh; overflow-y: auto; background: var(--bg); border: 2px solid var(--accent-orange); padding: 25px; border-radius: 12px; box-shadow: 0 0 25px rgba(0,0,0,0.5); color: var(--text); }
+        #tokenomics-box { width: 800px; }
+        body.light-mode .popup-box { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(255, 77, 48, 0.3); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+        body.light-mode .popup-box h2, body.light-mode .popup-box h3, body.light-mode .popup-box h4, body.light-mode .popup-box li, body.light-mode .popup-box p { color: var(--text) !important; }
+        .popup-box h2, .popup-box h3, .popup-box h4 { color: var(--accent-orange); }
+        .close-popup { position: absolute; top: 5px; right: 10px; font-size: 35px; font-weight: bold; color: var(--accent-orange); cursor: pointer; opacity: 0.9; padding: 10px; z-index: 10; }
+        body.light-mode .mobile-section-title { color: var(--accent-orange); border-bottom: 2px solid var(--accent-orange); font-weight: 800; }
+        body.light-mode .menu-title { color: var(--accent-orange); font-weight: 800; }
+        body.light-mode .mobile-link { border-color: #ccc; color: #020B26; background: #f8f8f8; }
+        body.light-mode .mobile-link:hover { background: var(--accent-orange); color: white; border-color: var(--accent-orange); }
+    </style>
+</head>
+<body class="dark-mode">
+
+    <div id="popup-backdrop" class="popup-backdrop"></div>
+    <button id="mobile-menu-trigger" class="hamburger-btn">☰</button>
+
+    <div id="mobile-menu-overlay" class="mobile-overlay">
+        <span class="close-mobile">&times;</span>
+        <div class="mobile-content">
+            <h4 class="mobile-section-title">UTILITY</h4>
+            <button class="mobile-link" data-target="swap-box">Swap</button>
+            <button class="mobile-link" data-target="charts-box">Charts</button>
+            <button class="mobile-link" data-target="tokenomics-box">Tokenomics</button>
+            <button class="mobile-link" data-target="perks-box">Perks</button>
+            <button class="mobile-link" data-target="merch-box">Merch Preview</button>
+            <button class="mobile-link" data-target="leaderboard-box">Holders</button>
+
+            <h4 class="mobile-section-title">THE LORE</h4>
+            <button class="mobile-link" data-target="section-manifesto">The Manifesto</button>
+            <button class="mobile-link" data-target="section-everyone">Everyone Is a Reply Guy</button>
+            <button class="mobile-link" data-target="section-honest">The Honest Identity</button>
+            <button class="mobile-link" data-target="section-hierarchy">The Hierarchy</button>
+            <button class="mobile-link" data-target="community-box">Join The Chat</button> <button class="mobile-link" data-target="roadmap-box">The Roadmap</button>
+        </div>
+    </div>
+
+    <div class="cartoon-snippet right-snippet">
+        <img src="images/repchar.png" alt="Reply Guy Cartoon Character Right">
+    </div>
+
+    <div class="toggle-wrapper">
+        <label class="switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
+    <div class="left-menu">
+        <button class="menu-btn" data-target="swap-box">Swap</button>
+        <button class="menu-btn" data-target="charts-box">Charts</button>
+        <button class="menu-btn" data-target="tokenomics-box">Tokenomics</button> 
+        <button class="menu-btn" data-target="perks-box">Perks</button>
+        <button class="menu-btn" data-target="merch-box">Merch Preview</button>
+        <button class="menu-btn" data-target="leaderboard-box">Holders</button> 
+    </div>
+
+    <div class="right-menu">
+        <button class="menu-btn" data-target="section-manifesto">The Manifesto</button>
+        <button class="menu-btn" data-target="section-everyone">Everyone Is a Reply Guy</button>
+        <button class="menu-btn" data-target="section-honest">The Honest Identity</button>
+        <button class="menu-btn" data-target="section-hierarchy">The Hierarchy</button>
+        <button class="menu-btn" data-target="community-box">Join The Chat</button> 
+        <button class="menu-btn" data-target="roadmap-box">The Roadmap</button> 
+    </div>
+
+    <div id="perks-box" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>Holder Benefits</h2>
+        <h3>ONLINE EVENTS</h3>
+        <ul>
+            <li>AMAS</li>
+            <li>LIVE RAFFLES</li>
+            <li>TWITTER/X CHALLENGES</li>
+            <li>MEME CONTESTS</li>
+            <li>HOLDER-EXCLUSIVE STREAMS</li>
+        </ul>
+        <h3>REAL-WORLD EVENTS</h3>
+        <ul>
+            <li>MEETUPS</li>
+            <li>POP-UP GATHERINGS</li>
+            <li>SPONSORED EVENTS</li>
+            <li>PRIVATE COMMUNITY PARTIES</li>
+        </ul>
+    </div>
+
+    <div id="merch-box" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>Merch Preview</h2>
+        <div class="merch-grid">
+            <img src="images/merch1.png" alt="Reply Guy Merch 1" loading="lazy">
+            <img src="images/merch2.png" alt="Reply Guy Merch 2" loading="lazy">
+            <img src="images/merch3.png" alt="Reply Guy Merch 3" loading="lazy">
+            <img src="images/merch4.png" alt="Reply Guy Merch 4" loading="lazy">
+            <img src="images/merch5.png" alt="Reply Guy Merch 5" loading="lazy">
+            <img src="images/merch6.png" alt="Reply Guy Merch 6" loading="lazy">
+            <img src="images/merch7.png" alt="Reply Guy Merch 7" loading="lazy">
+            <img src="images/merch8.png" alt="Reply Guy Merch 8" loading="lazy">
+        </div>
+    </div>
+
+    <div id="charts-box" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>Charts</h2>
+        <h4 class="chart-label dex-label">DEXSCREENER CHART</h4> 
+        <iframe data-chart="dex" width="100%" height="300" loading="lazy" style="border:none;"></iframe>
+        <h4 class="chart-label pump-label">PUMP.FUN CHART</h4> 
+        <iframe data-chart="pump" width="100%" height="300" loading="lazy" style="border:none;"></iframe>
+    </div>
+
+    <div id="swap-box" class="popup-box" style="text-align:center;">
+        <span class="close-popup">&times;</span>
+        <h2>Swap RGT</h2>
+        <p style="margin-bottom:20px;">Choose your preferred exchange:</p>
+        <a data-swap="jupiter-button" target="_blank" class="swap-button" style="display:block; margin-bottom:15px;">Open Jupiter (New Tab)</a>
+    </div>
+
+    <div id="leaderboard-box" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>🏆 Top Reply Guys</h2>
+        <p class="leaderboard-info">Membership Tiers are determined by token holding thresholds. Only the Top 20 are displayed.</p>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Holder Address</th>
+                    <th>RGT Held</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td class="address">A1B2...C3D4</td><td>1,250,000,000</td><td class="tier-ultra">ULTRA</td></tr>
+                <tr><td>2</td><td class="address">B5C6...D7E8</td><td>850,000,000</td><td class="tier-turbo">TURBO</td></tr>
+                <tr><td>3</td><td class="address">E9F0...G1H2</td><td>210,000,000</td><td class="tier-elite">ELITE</td></tr>
+                <tr><td>4</td><td class="address">I3J4...K5L6</td><td>55,000,000</td><td class="tier-og">OG</td></tr>
+            </tbody>
+        </table>
+
+        <div class="verify-section">
+            <h3 style="color:var(--accent-blue);">Verify Your Status</h3>
+            <p style="font-size:13px; margin-bottom:15px;">Connect your Phantom Wallet to check your RGT balance and see if you qualify for higher tiers.</p>
+            <button class="verify-btn" onclick="verifyHolderStatus()">👻 Connect Phantom & Verify</button>
+            <div id="verify-result" class="verify-result"></div>
+        </div>
+    </div>
+
+    <div id="tokenomics-box" class="popup-box" style="text-align:center;">
+        <span class="close-popup">&times;</span>
+        <h2 style="margin-bottom: 20px;">Tokenomics</h2>
+        <img src="images/tokenomics-comic.jpg" alt="Tokenomics Comic" style="width:100%; height:auto; border-radius:8px; border: 2px solid #FF4D30;">
+    </div>
+
+    <div id="roadmap-box" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>The Roadmap 🗺️</h2>
+        <p style="color:var(--accent-blue); margin-bottom: 20px;">From Shitpost to Utility.</p>
+        <div style="text-align:left;">
+            <h4 class="orange">PHASE 1: THE REPLY (Launch)</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li>✅ Website Deployment</li>
+                <li>✅ Token Fair Launch (Pump.fun)</li>
+                <li>⏳ Raydium Liquidity Seeding</li>
+                <li>⏳ 1,000 Holders Goal</li>
+            </ul>
+            <h4 class="orange">PHASE 2: THE CONVERSATION (Growth)</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li>🔒 Liquidity Lock & Burn</li>
+                <li>👕 <strong>Official Merch Store Opening</strong> (Global Shipping)</li>
+                <li>🦎 CoinGecko & CMC Listings</li>
+                <li>🤝 Partnerships with Influencer Reply Guys</li>
+            </ul>
+            <h4 class="orange">PHASE 3: THE ESTABLISHMENT (Utility)</h4>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li>📱 <strong>Reply Guy Mobile App Beta</strong> (Raid Alerts & Tools)</li>
+                <li>🏛️ The "Headquarters" Fund Initiation</li>
+                <li>💎 Verification System for Top Holders</li>
+                <li>🌍 Real World Pop-Up Events</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="section-why" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>Why RGT Matters</h2>
+        <p>Replying is the heartbeat of the internet. It is the most accessible form of influence, the most democratic form of expression, and the most underestimated source of virality.</p>
+        <p>Reply Guy matters because without him, nothing spreads, nothing grows, and nothing becomes viral. In a landscape driven by visibility and engagement, the reply guy is not the bottom of the hierarchy, he is the engine of it.</p>
+    </div>
+    <div id="section-everyone" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>Everyone Is a Reply Guy</h2>
+        <p>Strip away titles, wealth, and follower counts, and the truth becomes obvious: <strong>Even the biggest people on Earth are Reply guys.</strong></p>
+        <p>If you scroll far enough back in anyone’s history, you will find the same thing: A moment when they were unknown, unseen, unrecognized… replying just like everybody else.</p>
+    </div>
+    <div id="section-honest" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>The Most Honest Identity</h2>
+        <p>Reply Guy Token takes a label usually treated as low-status and reframes it into something raw, real, and powerful.</p>
+        <p>That is why Reply Guy Token resonates: It is self-aware, unapologetic, and authentic. It represents the identity everyone shares but few acknowledge.</p>
+    </div>
+    <div id="section-hierarchy" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>The Reply Guy Hierarchy</h2>
+        <p>Although the internet pretends that status matters, the reply box is the one place where every identity collapses into a single level. But for fun and for accuracy, we recognize the archetypes:</p>
+        <div style="text-align: left; margin-top: 15px;">
+            <p><strong style="color:var(--accent-yellow)">1. The Everyday Reply Guy</strong><br>Replies to participate. The backbone of every conversation.</p>
+            <p><strong style="color:var(--accent-yellow)">2. The Influencer Reply Guy</strong><br>Uses replies to stay relevant, visible, and algorithmically favored.</p>
+            <p><strong style="color:var(--accent-yellow)">3. The FUD Reply Guy</strong><br>Appears instantly, thrives on chaos, and disappears just as fast.</p>
+            <p><strong style="color:var(--accent-yellow)">4. The Overconfident Genius</strong><br>Writes essays under a meme post. Sometimes right. Sometimes unhinged.</p>
+            <p><strong style="color:var(--accent-yellow)">5. The Copypasta Reply Guy</strong><br>Human? Bot? Legend? No one knows.</p>
+            <p><strong style="color:var(--accent-yellow)">6. The Ultra-Degen Reply Guy</strong><br>Responds with charts, memes, and unsolicited alpha at 4:00 AM.</p>
+            <p><strong style="color:var(--accent-orange)">7. The Idol-Level Reply Guy</strong><br>When someone like Elon replies, the internet shakes, markets move, and ecosystems react.</p>
+        </div>
+    </div>
+    <div id="section-manifesto" class="popup-box">
+        <span class="close-popup">&times;</span>
+        <h2>The Manifesto 📜</h2>
+        <p>We believe the smallest voice can shift an entire thread. We believe bravery begins at the bottom of a comment section.</p>
+        <p style="margin-top: 20px;"><strong>Reply Guy Token is not an identity you hide from. It is the identity you claim.</strong></p>
+    </div>
+
+    <div id="community-box" class="popup-box" style="text-align: center; z-index: 10001 !important;">
+        <span class="close-popup">&times;</span>
+        <h2>Join The Conversation 💬</h2>
+        
+        <p style="color:var(--accent-blue); margin-bottom: 25px;">
+            We don't chat here. We chat where the world is watching.
+            <br>Join the official channels to raid, reply, and vibe.
+        </p>
+    
+        <a href="https://t.me/YOUR_TELEGRAM_LINK_HERE" target="_blank" style="text-decoration:none; display:block; margin-bottom:15px;">
+            <div style="
+                background: linear-gradient(135deg, #229ED9, #0088cc);
+                color: white;
+                padding: 15px;
+                border-radius: 12px;
+                font-weight: bold;
+                font-size: 18px;
+                box-shadow: 0 4px 15px rgba(34, 158, 217, 0.3);
+                display: flex; align-items: center; justify-content: center; gap: 10px;
+            ">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.751-.244-1.349-.374-1.297-.789.027-.216.324-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.477-1.635.099-.002.321.023.465.141.119.098.152.228.166.33.016.116.031.292.016.466z"/></svg>
+                Join Telegram
+            </div>
+        </a>
+    
+        <a href="https://x.com/ReplyGuyToken25" target="_blank" style="text-decoration:none; display:block;">
+            <div style="
+                background: #000;
+                border: 1px solid #333;
+                color: white;
+                padding: 15px;
+                border-radius: 12px;
+                font-weight: bold;
+                font-size: 18px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                display: flex; align-items: center; justify-content: center; gap: 10px;
+            ">
+                <span style="font-size: 20px;">𝕏</span>
+                Raid on X
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <h1 class="title">REPLY GUY <br> TOKEN </h1>
+        <h2 class="subtitle">“POWERED BY PURE ENGAGEMENT”</h2>
+
+        <div class="logo-wrapper">
+            <img src="images/Replylogo.png" alt="Reply Guy Token Logo" class="logo" loading="lazy">
+        </div>
+
+        <p class="description">
+            REPLY GUY TOKEN (RGT) ISN’T JUST ANOTHER TOKEN ON THE CHAIN. IT’S DESIGNED TO FUNCTION AS A MULTI-PURPOSE ACCESS PASS FOR EVERYTHING INSIDE THE RGT COMMUNITY — BOTH DIGITAL AND REAL-WORLD. <br><br>
+            THINK OF RGT AS YOUR MEMBERSHIP BADGE, DISCOUNT CARD, AND EVENT TICKET, ALL ROLLED INTO ONE.
+        </p>
+
+        <h3 class="section-title">HOLDERS OF RGT GAIN AUTOMATIC ACCESS TO EXCLUSIVE PARTICIPATION IN:</h3>
+        
+        <div class="two-columns">
+            <div class="left-col">
+                <h4 class="orange">ONLINE EVENTS:</h4>
+                <ul>
+                    <li>AMAS</li>
+                    <li>LIVE RAFFLES</li>
+                    <li>TWITTER/X CHALLENGES</li>
+                    <li>MEME CONTESTS</li>
+                    <li>HOLDER-EXCLUSIVE STREAMS</li>
+                </ul>
+                <h4 class="orange">REAL-WORLD EVENTS:</h4>
+                <ul>
+                    <li>MEETUPS</li>
+                    <li>POP-UP GATHERINGS</li>
+                    <li>SPONSORED EVENTS</li>
+                    <li>PRIVATE COMMUNITY PARTIES</li>
+                </ul>
+                <h4 class="orange">MEMBERSHIP STATUS:</h4>
+                <ul>
+                    <li>REPLY GUY OG</li>
+                    <li>REPLY GUY ELITE</li>
+                    <li>REPLY GUY TURBO</li>
+                    <li>REPLY GUY ULTRA (HIGHEST TIER)</li>
+                </ul>
+
+                <div class="stacked-images-container">
+                    <img src="images/repchar2.png" alt="Reply Character 2" class="stacked-img">
+                    <img src="images/repcart.png" alt="Reply Cartoon" class="stacked-img">
+                    <img src="images/repcart1.png" alt="Reply Cartoon 1" class="stacked-img">
+                </div>
+            </div>
+
+            <div class="right-col">
+                <h4 class="orange">DISCOUNT TOKEN FOR RGT MERCHANDISE:</h4>
+                <div class="merch-grid">
+                    <img src="images/merch1.png" alt="Merch Item 1" loading="lazy">
+                    <img src="images/merch2.png" alt="Merch Item 2" loading="lazy">
+                    <img src="images/merch3.png" alt="Merch Item 3" loading="lazy">
+                    <img src="images/merch4.png" alt="Merch Item 4" loading="lazy">
+                    <img src="images/merch5.png" alt="Merch Item 5" loading="lazy">
+                    <img src="images/merch6.png" alt="Merch Item 6" loading="lazy">
+                    <img src="images/merch7.png" alt="Merch Item 7" loading="lazy">
+                    <img src="images/merch8.png" alt="Merch Item 8" loading="lazy">
+                </div>
+
+                <div class="bottom-image-container">
+                    <img src="images/merch-bottom.png" alt="Merch Footer Banner" class="merch-footer-img">
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <h3 class="section-title">MARKET CHARTS 📈</h3>
+            <div class="charts-wrapper">
+                <div class="chart-wrapper">
+                    <h4 class="chart-label dex-label">DEXSCREENER CHART</h4> 
+                    <iframe data-chart="dex-main" frameborder="0" width="100%" height="330px" loading="lazy" style="border:none;"></iframe>
+                </div>
+                <div class="chart-wrapper">
+                    <h4 class="chart-label pump-label">PUMP.FUN CHART</h4>
+                    <iframe data-chart="pump-main" frameborder="0" width="100%" height="330px" loading="lazy" style="border:none;"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="swap-button-wrapper">
+            <a data-swap="jupiter-button" target="_blank" class="swap-button">Swap on Jupiter</a>
+        </div>
+    </div>
+
+    <div class="swap-widget-wrapper">
+        <iframe data-swap="raydium-widget" width="100%" height="450px" frameborder="0" style="border-radius:12px; border:none;" loading="lazy"></iframe>
+    </div>
+
+    <div class="socials-bottom">
+        <p class="social-label">CONNECT WITH US</p>
+        <a href="https://x.com/ReplyGuyToken25" target="_blank" class="social-icon">
+            <img src="images/x-logo.png" alt="X (Twitter) Logo">
+        </a>
+    </div>
+
+    <script>
+        // 🔑 Token Address Management
+        const TOKEN_ADDRESS = 'REPLACE_WITH_YOUR_SOLANA_TOKEN_ADDRESS'; 
+        const SOL_MINT = 'So11111111111111111111111111111111111111112';
+
+        // Update Links
+        function updateTokenAddresses() {
+            document.querySelector('[data-chart="dex-main"]').src = `https://dexscreener.com/solana/${TOKEN_ADDRESS}?embed=1`;
+            document.querySelector('[data-chart="pump-main"]').src = `https://pumpfun.com/chart/solana/${TOKEN_ADDRESS}`;
+            document.querySelector('#charts-box [data-chart="dex"]').src = `https://dexscreener.com/solana/${TOKEN_ADDRESS}?embed=1`;
+            document.querySelector('#charts-box [data-chart="pump"]').src = `https://pumpfun.com/chart/solana/${TOKEN_ADDRESS}`;
+            document.querySelectorAll('[data-swap="jupiter-button"]').forEach(btn => {
+                btn.href = "https://jup.ag/swap/SOL-USDC"; 
+            });
+            document.querySelector('[data-swap="raydium-widget"]').src = `https://raydium.io/swap?tokenIn=SOL&tokenOut=${TOKEN_ADDRESS}&embed=true`;
+        }
+        updateTokenAddresses();
+
+        // Dark/Light Toggle
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') { body.classList.add('light-mode'); toggle.checked = true; } 
+        else { body.classList.add('dark-mode'); }
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) { body.classList.remove('dark-mode'); body.classList.add('light-mode'); localStorage.setItem('theme', 'light'); } 
+            else { body.classList.remove('light-mode'); body.classList.add('dark-mode'); localStorage.setItem('theme', 'dark'); }
+        });
+
+        // Scroll fade-in
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.chart-wrapper').forEach(chart => observer.observe(chart));
+
+        // Global Popup Logic
+        const backdrop = document.getElementById('popup-backdrop');
+        const popups = document.querySelectorAll('.popup-box');
+        function openPopup(targetId) {
+            popups.forEach(p => p.style.display = 'none');
+            backdrop.style.display = 'block';
+            const target = document.getElementById(targetId);
+            if(target) target.style.display = 'block';
+        }
+        function closeAllPopups() {
+            popups.forEach(p => p.style.display = 'none');
+            backdrop.style.display = 'none';
+        }
+        document.body.addEventListener('click', (e) => {
+            const btn = e.target.closest('.menu-btn') || e.target.closest('.mobile-link');
+            if (btn && btn.tagName === 'A') return;
+            if (btn) {
+                e.stopPropagation();
+                document.getElementById('mobile-menu-overlay').style.display = 'none';
+                const targetId = btn.getAttribute('data-target');
+                if(targetId) openPopup(targetId);
+                return;
+            }
+            if (e.target.closest('.hamburger-btn')) { e.stopPropagation(); closeAllPopups(); document.getElementById('mobile-menu-overlay').style.display = 'block'; return; }
+            if (e.target.closest('.close-mobile')) { e.stopPropagation(); document.getElementById('mobile-menu-overlay').style.display = 'none'; return; }
+            if (e.target.closest('.close-popup')) { e.stopPropagation(); closeAllPopups(); if (window.innerWidth <= 1150) document.getElementById('mobile-menu-overlay').style.display = 'block'; return; }
+            if (e.target === backdrop) closeAllPopups();
+        });
+
+        // 🌟 VERIFICATION LOGIC (WEB3) 🌟
+        async function verifyHolderStatus() {
+            const resultBox = document.getElementById('verify-result');
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = "⏳ Connecting to wallet...";
+            resultBox.className = 'verify-result';
+
+            // 1. Check if Phantom is installed
+            if (!window.solana || !window.solana.isPhantom) {
+                resultBox.innerHTML = "❌ Phantom Wallet not found. Please install it.";
+                resultBox.classList.add('status-fail');
+                return;
+            }
+
+            try {
+                // 2. Connect Wallet
+                const response = await window.solana.connect();
+                const walletAddress = response.publicKey.toString();
+                resultBox.innerHTML = `✅ Connected: ${walletAddress.slice(0,4)}...${walletAddress.slice(-4)}<br>🔍 Scanning for RGT...`;
+
+                // 3. Get Token Accounts (Using Public RPC - Might fail in production without paid RPC)
+                const connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com");
+                const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+                    new solanaWeb3.PublicKey(walletAddress),
+                    { mint: new solanaWeb3.PublicKey(TOKEN_ADDRESS) }
+                );
+
+                // 4. Calculate Balance
+                let balance = 0;
+                if (tokenAccounts.value.length > 0) {
+                    balance = tokenAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+                }
+
+                // 5. Determine Tier
+                let message = "";
+                let tierClass = "";
+                
+                if (balance >= 1250000000) { message = "👑 STATUS: REPLY GUY ULTRA"; tierClass = "status-success"; }
+                else if (balance >= 850000000) { message = "🔥 STATUS: REPLY GUY TURBO"; tierClass = "status-success"; }
+                else if (balance >= 210000000) { message = "⭐ STATUS: REPLY GUY ELITE"; tierClass = "status-success"; }
+                else if (balance > 0) { message = "✅ STATUS: REPLY GUY OG"; tierClass = "status-success"; }
+                else { 
+                    message = "❌ No RGT Found. Go Swap!"; 
+                    tierClass = "status-fail"; 
+                }
+
+                resultBox.innerHTML = `💰 Balance: ${balance.toLocaleString()} RGT<br>${message}`;
+                resultBox.classList.add(tierClass);
+
+            } catch (err) {
+                console.error(err);
+                resultBox.innerHTML = "⚠️ Error: " + err.message;
+                resultBox.classList.add('status-fail');
+            }
+        }
+    </script>
+<footer style="background-color: #0f172a; padding: 3rem 1rem; text-align: center; border-top: 1px solid #1e293b;">
+
+    <h3 style="color: white; margin-bottom: 1.5rem; font-family: sans-serif;">Join the Community</h3>
+
+    <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem;">
+        
+        <a href="https://t.me/replyguytoken25" target="_blank" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 0.5rem; background: #229ED9; padding: 0.5rem 1rem; border-radius: 5px;">
+            <span>✈️</span> Telegram
+        </a>
+
+        <a href="https://pump.fun" target="_blank" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 0.5rem; background: #16a34a; padding: 0.5rem 1rem; border-radius: 5px;">
+            <span>💊</span> Buy on PumpFun
+        </a>
+
+        <a href="https://github.com/noctirionvale" target="_blank" style="text-decoration: none; color: white; display: flex; align-items: center; gap: 0.5rem; background: #333333; padding: 0.5rem 1rem; border-radius: 5px; border: 1px solid #555;">
+    <span>🐙</span> GitHub
+</a>
+    </div>
+
+    <p style="color: #64748b; font-size: 0.875rem; font-family: sans-serif;">
+        © 2025 ReplyGuy Token. All rights reserved.
+    </p>
+
+</footer>
+</body>
+</html>
