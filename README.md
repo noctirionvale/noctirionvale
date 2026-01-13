@@ -1,16 +1,15 @@
-## Hi there 👋
+Building small web projects focused on clarity, usability, and responsible technology education.
 
-<!--
-**noctirionvale/noctirionvale** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+🚀 Current projects:
 
-Here are some ideas to get you started:
+vAIbes — Educational AI comparison and literacy tool.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+Reply Guy Token — Experimental web concept.
+
+🛠️ Learning:
+
+Frontend architecture & JavaScript systems.
+
+Modern web tooling.
+
+...and how to be taken seriously.😁
